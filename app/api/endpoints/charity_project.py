@@ -17,13 +17,13 @@ router = APIRouter()
 
 
 @router.post(
-        '/',
-        response_model=CharityProjectDB,
-        response_model_exclude_none=True,
-        dependencies=[Depends(current_superuser)],)
+    '/',
+    response_model=CharityProjectDB,
+    response_model_exclude_none=True,
+    dependencies=[Depends(current_superuser)], )
 async def create_new_charity_project(
         charity_project: CharityProjectCreate,
-        session: AsyncSession=Depends(get_async_session),
+        session: AsyncSession = Depends(get_async_session),
 ):
     """Создание нового проекта."""
     """Только для суперюзеров."""
@@ -39,7 +39,7 @@ async def create_new_charity_project(
     response_model_exclude_none=True,
 )
 async def get_all_project(
-        session: AsyncSession=Depends(get_async_session),
+        session: AsyncSession = Depends(get_async_session),
 ):
     """Возвращает список всех проектов."""
     all_projects = await charity_project_crud.get_multi(session)
@@ -54,7 +54,7 @@ async def get_all_project(
 async def partially_update_project(
         project_id: int,
         obj_in: CharityProjectUpdate,
-        session: AsyncSession=Depends(get_async_session),
+        session: AsyncSession = Depends(get_async_session),
 ):
     """Редактирование проекта."""
     """Только для суперюзеров."""
@@ -65,7 +65,7 @@ async def partially_update_project(
     if obj_in.full_amount is not None:
         await check_value(obj_in.full_amount, project.invested_amount)
     project = await charity_project_crud.update(
-       project, obj_in, session
+        project, obj_in, session
     )
     return project
 
@@ -77,7 +77,7 @@ async def partially_update_project(
 )
 async def remove_project(
         project_id: int,
-        session: AsyncSession=Depends(get_async_session),
+        session: AsyncSession = Depends(get_async_session),
 ):
     """Удаление проекта."""
     """Только для суперюзеров."""

@@ -14,7 +14,7 @@ from app.models.user import User
 from app.schemas.user import UserCreate
 
 
-async def get_user_db(session: AsyncSession=Depends(get_async_session)):
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)
 
 
@@ -49,7 +49,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             )
 
     async def on_after_register(
-            self, user: User, request: Optional[Request]=None
+            self, user: User, request: Optional[Request] = None
     ):
         print(f'Пользователь {user.email} зарегистрирован.')
 
