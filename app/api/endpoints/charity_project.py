@@ -56,8 +56,9 @@ async def partially_update_project(
         obj_in: CharityProjectUpdate,
         session: AsyncSession = Depends(get_async_session),
 ):
-    """Редактирование проекта."""
-    """Только для суперюзеров."""
+    """Редактирование проекта.
+    Только для суперюзеров.
+    """
     project = await check_project_exists(project_id, session)
     await check_close_before_update(project.fully_invested)
     if obj_in.name is not None:

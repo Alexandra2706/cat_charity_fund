@@ -3,10 +3,13 @@ from typing import Optional
 
 from pydantic import BaseModel, Extra, Field, PositiveInt, validator
 
+from app.core.constants import MIN_LENGTH, MAX_LENGTH
+
 
 class CharityProjectBase(BaseModel):
-    name: Optional[str] = Field(None, min_length=1, max_length=100)
-    description: Optional[str] = Field(None, min_length=1)
+    name: Optional[str] = Field(None, min_length=MIN_LENGTH,
+                                max_length=MAX_LENGTH)
+    description: Optional[str] = Field(None, min_length=MIN_LENGTH)
     full_amount: Optional[PositiveInt]
 
     class Config:
@@ -14,8 +17,8 @@ class CharityProjectBase(BaseModel):
 
 
 class CharityProjectCreate(CharityProjectBase):
-    name: str = Field(..., min_length=1, max_length=100)
-    description: str = Field(..., min_length=1)
+    name: str = Field(..., min_length=MIN_LENGTH, max_length=MAX_LENGTH)
+    description: str = Field(..., min_length=MIN_LENGTH)
     full_amount: PositiveInt
 
 
@@ -23,7 +26,7 @@ class CharityProjectUpdate(CharityProjectBase):
 
     @validator('name')
     def name_cant_be_null(cls, value: str):
-        if value is None:
+        if not value:
             raise ValueError('Имя не может быть пустым!')
         return value
 
